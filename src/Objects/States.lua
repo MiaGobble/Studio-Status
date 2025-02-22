@@ -8,13 +8,18 @@ local Scope = Fusion.scoped(Fusion)
 
 
 return {
+    -- The current user
+    LocalPlayer = Scope:Value(PlayersService.LocalPlayer),
+
     -- Whether team create is enabled
     IsTeamCreate = Scope:Value(if #PlayersService:GetPlayers() > 1 then true else false),
 
     -- The user-set status
     Status = Scope:Value({
         Emoji = "",
-        Color = Color3.fromRGB(255, 255, 255),
+        ColorR = 255,
+        ColorG = 255,
+        ColorB = 255,
         Text = "",
     }),
 
@@ -23,6 +28,9 @@ return {
 
     -- Whether studio is not in run mode
     IsEnabled = Scope:Value(not (RunService:IsRunning() or RunService:IsRunMode())),
+
+    -- Set by command
+    IsPluginVisible = Scope:Value(true),
 
     -- Status Settings
     IsStatusEnabled = Scope:Value(true),

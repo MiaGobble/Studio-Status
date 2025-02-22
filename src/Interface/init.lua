@@ -162,7 +162,7 @@ function Interface:Init() : DockWidgetPluginGui
         --Size = UDim2.new(1, 0, 0, 50),
         Collapsed = true,
         Padding = UDim.new(0, 10),
-        Text = "Command Settings",
+        Text = "Command Settings (not yet implemented)",
         Enabled = States.IsEnabled,
         Parent = Container,
 
