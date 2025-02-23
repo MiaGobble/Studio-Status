@@ -19,6 +19,12 @@ local CLASS_NAME_TO_STATUS = {
 local FALLBACK_STATUS_SELECTED = "Currently working on something..."
 local FALLBACK_STATUS_NON_SELECTED = "Thinking right now..."
 
+local STATUS_TYPE_COLOR_MAP = {
+    Online = Color3.fromRGB(0, 0, 0),
+    Offline = Color3.fromRGB(90, 90, 90),
+    Away = Color3.fromRGB(255, 213, 0),
+}
+
 -- Imports
 local Bin = script.Parent.Parent
 local Objects = Bin:FindFirstChild("Objects")
@@ -139,8 +145,13 @@ return function(Properties : {[string] : any})
             },
 
             Scope:New "UIStroke" {
-                Thickness = 1,
-                Transparency = 0.5,
+                Thickness = 3,
+                Transparency = 0.25,
+
+                Color = Scope:Computed(function(use)
+                    local StatusType = use(States.StatusType)
+                    return STATUS_TYPE_COLOR_MAP[StatusType] or Color3.fromRGB(255, 255, 255)
+                end),
             }
         }
     })(Properties)

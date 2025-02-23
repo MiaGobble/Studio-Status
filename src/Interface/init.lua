@@ -10,7 +10,6 @@ local PluginComponents = IconicDesign:FindFirstChild("PluginComponents")
 local StudioComponents = IconicDesign:FindFirstChild("StudioComponents")
 local Widget = require(PluginComponents:FindFirstChild("Widget"))
 local Background = require(StudioComponents:FindFirstChild("Background"))
-local Shadow = require(StudioComponents:FindFirstChild("Shadow"))
 local ScrollFrame = require(StudioComponents:FindFirstChild("ScrollFrame"))
 local TextInput = require(StudioComponents:FindFirstChild("TextInput"))
 local VerticalCollapsibleSection = require(StudioComponents:FindFirstChild("VerticalCollapsibleSection"))
@@ -158,8 +157,28 @@ function Interface:Init() : DockWidgetPluginGui
                 Text = "Use Automatic Status",
                 Value = States.UseAutomaticStatus,
             },
+
+            Checkbox {
+                Enabled = States.IsEnabled,
+                Alignment = Enum.HorizontalAlignment.Left,
+                Name = "IsOffline",
+                Text = "Set Status Type as Offline",
+                Value = States.IsOffline,
+            },
         }
     }
+
+    if Peek(States.IsOffline) then
+        States.StatusType:set("Offline")
+    end
+
+    Scope:Observer(States.IsOffline):onChange(function()
+        if Peek(States.IsOffline) then
+            States.StatusType:set("Offline")
+        else
+            States.StatusType:set("Online")
+        end
+    end)
 
     local CommandSettings = VerticalCollapsibleSection {
         Name = "CommandSettings",

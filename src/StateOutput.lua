@@ -13,6 +13,7 @@ local SAVED_STATES = {
     "ShowSelectedInstances",
     "SeeOwnStatus",
     "UseAutomaticStatus",
+    "IsOffline",
 
     -- Command settings
     "AllowCommands",

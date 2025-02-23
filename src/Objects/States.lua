@@ -47,6 +47,7 @@ return {
     ShowSelectedInstances = Scope:Value(true),
     SeeOwnStatus = Scope:Value(false),
     UseAutomaticStatus = Scope:Value(false),
+    IsOffline = Scope:Value(false),
 
     -- Command Settings
     AllowCommands = Scope:Value(false),
