@@ -65,7 +65,7 @@ function Interface:Init() : DockWidgetPluginGui
 
         ZIndex = 2,
         Parent = MainWidget,
-    }).Canvas
+    }):FindFirstChild("Canvas")
 
     local StatusContainer = Background {
         Name = "Status",
@@ -73,40 +73,31 @@ function Interface:Init() : DockWidgetPluginGui
         BackgroundTransparency = 0,
         BorderSizePixel = 0,
         Parent = Container,
-
-        [Children] = {
-            -- Shadow {
-            --     Side = "bottom",
-            -- },
-
-            -- Scope:New "UIStroke" {
-            --     Thickness = 1,
-            --     Transparency = 0.8,
-            -- },
-
-            -- Scope:New "UIPadding" {
-            --     PaddingTop = UDim.new(0, 10),
-            --     PaddingBottom = UDim.new(0, 10),
-            --     PaddingLeft = UDim.new(0, 10),
-            --     PaddingRight = UDim.new(0, 10),
-            -- },
-        }
     }
 
     local StatusInputText; StatusInputText = TextInput {
         Name = "StatusInput",
         AnchorPoint = Vector2.new(0.5, 0),
-        Size = UDim2.fromScale(1, 1),-- - UDim2.fromOffset(10, 0),
-        Position = UDim2.fromScale(0.5, 0),-- + UDim2.fromOffset(0, 10),
-        PlaceholderText = "Enter your status here...",
+        Size = UDim2.fromScale(1, 1),
+        Position = UDim2.fromScale(0.5, 0),
+
+        PlaceholderText = Scope:Computed(function(use)
+            if use(States.UseAutomaticStatus) then
+                return "Using automatic status..."
+            end
+
+            return "Enter your status here..."
+        end),
+
         TextEditable = true,
         ClearTextOnFocus = false,
-        Enabled = States.IsEnabled,
-        Parent = StatusContainer,
 
-        Text = Scope:Computed(function(use)
-            return use(States.Status).Text
+        Enabled = Scope:Computed(function(use)
+            return use(States.IsEnabled) and use(States.IsStatusEnabled) and not use(States.UseAutomaticStatus)
         end),
+
+        Parent = StatusContainer,
+        Text = Peek(States.Status).Text,
 
         [OnEvent "FocusLost"] = function()
             local Status = Peek(States.Status)
@@ -121,10 +112,15 @@ function Interface:Init() : DockWidgetPluginGui
         end,
     }
 
+    Scope:Observer(States.Status):onChange(function()
+        local Status = Peek(States.Status)
+        StatusInputText.Text = Status.Text
+    end)
+
     local StatusSettings = VerticalCollapsibleSection {
         Name = "StatusSettings",
         --Size = UDim2.new(1, 0, 0, 50),
-        Collapsed = tr,
+        Collapsed = false,
         Padding = UDim.new(0, 10),
         Text = "Status Settings",
         Enabled = States.IsEnabled,
@@ -154,6 +150,14 @@ function Interface:Init() : DockWidgetPluginGui
                 Text = "See Your Own Status",
                 Value = States.SeeOwnStatus,
             },
+
+            Checkbox {
+                Enabled = States.IsEnabled,
+                Alignment = Enum.HorizontalAlignment.Left,
+                Name = "UseAutomaticStatus",
+                Text = "Use Automatic Status",
+                Value = States.UseAutomaticStatus,
+            },
         }
     }
 
@@ -162,7 +166,7 @@ function Interface:Init() : DockWidgetPluginGui
         --Size = UDim2.new(1, 0, 0, 50),
         Collapsed = true,
         Padding = UDim.new(0, 10),
-        Text = "Command Settings (not yet implemented)",
+        Text = "Command Settings",
         Enabled = States.IsEnabled,
         Parent = Container,
 
@@ -171,7 +175,7 @@ function Interface:Init() : DockWidgetPluginGui
                 Enabled = States.IsEnabled,
                 Alignment = Enum.HorizontalAlignment.Left,
                 Name = "EnableCommands",
-                Text = "Enable Commands (requires restart)",
+                Text = "Enable Commands",
                 Value = States.AllowCommands,
             },
 
