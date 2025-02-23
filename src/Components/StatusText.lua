@@ -138,21 +138,21 @@ return function(Properties : {[string] : any})
 
         [Children] = {
             Scope:New "UIPadding" {
-                PaddingTop = UDim.new(0.05, 0),
-                PaddingBottom = UDim.new(0.05, 0),
-                PaddingLeft = UDim.new(0.05, 0),
-                PaddingRight = UDim.new(0.05, 0),
+                PaddingTop = UDim.new(0, 8),
+                PaddingBottom = UDim.new(0, 8),
+                PaddingLeft = UDim.new(0, 8),
+                PaddingRight = UDim.new(0, 8),
             },
 
-            Scope:New "UIStroke" {
-                Thickness = 3,
-                Transparency = 0.25,
+            -- Scope:New "UIStroke" {
+            --     Thickness = 3,
+            --     Transparency = 0.25,
 
-                Color = Scope:Computed(function(use)
-                    local StatusType = use(States.StatusType)
-                    return STATUS_TYPE_COLOR_MAP[StatusType] or Color3.fromRGB(255, 255, 255)
-                end),
-            }
+            --     Color = Scope:Computed(function(use)
+            --         local StatusType = use(States.StatusType)
+            --         return STATUS_TYPE_COLOR_MAP[StatusType] or Color3.fromRGB(255, 255, 255)
+            --     end),
+            -- }
         }
     })(Properties)
 end

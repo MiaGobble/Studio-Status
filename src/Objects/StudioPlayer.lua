@@ -14,8 +14,9 @@ local Bin = script.Parent.Parent
 local Components = Bin:FindFirstChild("Components")
 local Packages = Bin:FindFirstChild("Packages")
 local StatusBillboard = require(Components:FindFirstChild("StatusBillboard"))
-local StatusText = require(Components:FindFirstChild("StatusText"))
-local StatusSelection = require(Components:FindFirstChild("StatusSelection"))
+-- local StatusText = require(Components:FindFirstChild("StatusText"))
+-- local StatusSelection = require(Components:FindFirstChild("StatusSelection"))
+local StatusBin = require(Components:FindFirstChild("StatusBin"))
 local Fusion = require(Packages:FindFirstChild("Fusion"))
 local Scope = Fusion.scoped(Fusion)
 local Children = Fusion.Children
@@ -60,8 +61,7 @@ function StudioPlayer:Init()
         Adornee = self.Attachment,
 
         [Children] = {
-            StatusText {},
-            StatusSelection {},
+            StatusBin {},
         }
     }
 

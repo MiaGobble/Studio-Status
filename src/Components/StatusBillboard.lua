@@ -35,12 +35,12 @@ return function(Properties : {[string] : any})
         Archivable = false,
         Active = true,
         Enabled = States.IsStatusEnabled,
-        Size = UDim2.fromScale(8, 1.5) + UDim2.fromOffset(50, 25),
+        Size = UDim2.fromScale(8, 1.5) + UDim2.fromOffset(500, 200),
         ResetOnSpawn = false,
         LightInfluence = 0.2,
         ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
         Parent = workspace.Terrain,
-        MaxDistance = 100,
+        MaxDistance = 50,
         AlwaysOnTop = true,
     })(Properties)
 end

@@ -34,33 +34,43 @@ return function(Properties : {[string] : any})
             end
 
             if #SelectedInstances == 0 then
-                return "No instances selected"
+                return "No instance selected"
             end
 
             if #SelectedInstances > 1 then
-                return "Multiple instances selected"
+                return `{#SelectedInstances} instances selected`
             end
 
-            return `Selecting: {SelectedInstances[1].Name}`
+            return SelectedInstances[1]:GetFullName()
         end),
 
         [Children] = {
             Scope:New "UIPadding" {
-                PaddingTop = UDim.new(0.05, 0),
-                PaddingBottom = UDim.new(0.05, 0),
-                PaddingLeft = UDim.new(0.05, 0),
-                PaddingRight = UDim.new(0.05, 0),
+                PaddingTop = UDim.new(0, 8),
+                PaddingBottom = UDim.new(0, 8),
+                PaddingLeft = UDim.new(0, 40),
+                PaddingRight = UDim.new(0, 8),
             },
 
-            Scope:New "UIStroke" {
-                Thickness = 1,
-                Transparency = 0.5,
-
-                Color = Scope:Computed(function(use)
-                    local StatusType = use(States.StatusType)
-                    return STATUS_TYPE_COLOR_MAP[StatusType] or Color3.fromRGB(255, 255, 255)
-                end),
+            Scope:New "ImageLabel" {
+                Name = "SelectionIcon",
+                AnchorPoint = Vector2.new(0, 0.5),
+                BackgroundTransparency = 1,
+                Position = UDim2.new(0, -34, 0.5, 0),
+                Size = UDim2.new(0, 30, 1, 16),
+                Image = "http://www.roblox.com/asset/?id=6023565913",
+                ScaleType = Enum.ScaleType.Fit,
             }
+
+            -- Scope:New "UIStroke" {
+            --     Thickness = 1,
+            --     Transparency = 0.5,
+
+            --     Color = Scope:Computed(function(use)
+            --         local StatusType = use(States.StatusType)
+            --         return STATUS_TYPE_COLOR_MAP[StatusType] or Color3.fromRGB(255, 255, 255)
+            --     end),
+            -- }
         }
     })(Properties)
 end
